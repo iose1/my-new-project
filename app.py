@@ -1,3 +1,5 @@
+import os
+import time
 from flask import Flask, render_template_string
 import requests
 from datetime import datetime
@@ -5,13 +7,21 @@ from datetime import datetime
 app = Flask(__name__)
 
 QUOTE_API = "https://api.quotable.io/random"
+_quote_cache = {"quote": None, "timestamp": 0}
+CACHE_TTL = 30  # seconds
 
 def get_quote():
+    now = time.time()
+    if _quote_cache["quote"] and (now - _quote_cache["timestamp"] < CACHE_TTL):
+        return _quote_cache["quote"]
     try:
         resp = requests.get(QUOTE_API, timeout=5)
         if resp.status_code == 200:
             data = resp.json()
-            return f"{data['content']} — {data['author']}"
+            quote = f"{data['content']} — {data['author']}"
+            _quote_cache["quote"] = quote
+            _quote_cache["timestamp"] = now
+            return quote
     except Exception:
         pass
     return "Keep pushing forward. — Hermes"
