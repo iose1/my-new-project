@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>3D Rotating Cube - Hermes Demo</title>
+<style>
+    body { margin:0; height:100vh; display:flex; justify-content:center; align-items:center; background:#111; perspective:800px; }
+    .scene { width:200px; height:200px; }
+    .cube { width:100%; height:100%; position:relative; transform-style:preserve-3d; animation: rotate 12s infinite linear; }
+    .cube face {
+        position:absolute; width:200px; height:200px;
+        background:rgba(0,255,0,0.8); border:2px solid #fff;
+        box-sizing:border-box;
+    }
+    .cube face.front  { transform:translateZ(100px); }
+    .cube face.back   { transform:rotateY(180deg) translateZ(100px); }
+    .cube face.right  { transform:rotateY(90deg) translateZ(100px); }
+    .cube face.left   { transform:rotateY(-90deg) translateZ(100px); }
+    .cube face.top    { transform:rotateX(90deg) translateZ(100px); }
+    .cube face.bottom { transform:rotateX(-90deg) translateZ(100px); }
+    @keyframes rotate {
+        from { transform:rotateX(0deg) rotateY(0deg); }
+        to   { transform:rotateX(360deg) rotateY(360deg); }
+    }
+</style>
+</head>
+<body>
+<div class="scene">
+    <div class="cube">
+        <face class="front"></face>
+        <face class="back"></face>
+        <face class="right"></face>
+        <face class="left"></face>
+        <face class="top"></face>
+        <face class="bottom"></face>
+    </div>
+</div>
+</html>
