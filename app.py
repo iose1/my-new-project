@@ -31,7 +31,7 @@ def get_quote():
 
 def get_weather():
     now = time.time()
-    if _weather_cache["weather"] and (now - _weather_cache["timestamp"] < CACHE_TTL):
+    if _weather_cache["weather"] and (now - _quote_cache["timestamp"] < CACHE_TTL):
         return _weather_cache["weather"]
     try:
         # Use Open-Meteo: need latitude/longitude; we can approximate via a simple geocoding? For demo, use fixed coords for Ilsede.
@@ -84,4 +84,5 @@ def index():
 ''', now=now, quote=quote, weather=weather)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.getenv("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
