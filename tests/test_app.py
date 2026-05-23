@@ -75,3 +75,15 @@ def test_weather_cache_ttl(mock_get):
     # Cache should be updated
     assert _weather_cache['weather'] == weather
     assert _weather_cache['timestamp'] >= now - 1
+
+def test_api_route():
+    with app.test_client() as client:
+        resp = client.get('/api')
+        assert resp.status_code == 200
+        data = resp.get_json()
+        assert 'time' in data
+        assert 'quote' in data
+        assert 'weather' in data
+        # Check that quote and weather are strings
+        assert isinstance(data['quote'], str)
+        assert isinstance(data['weather'], str)

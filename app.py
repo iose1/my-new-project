@@ -1,6 +1,6 @@
 import os
 import time
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, jsonify
 import requests
 from datetime import datetime
 
@@ -82,6 +82,17 @@ def index():
 </body>
 </html>
 ''', now=now, quote=quote, weather=weather)
+
+@app.route('/api')
+def api():
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    quote = get_quote()
+    weather = get_weather()
+    return jsonify({
+        "time": now,
+        "quote": quote,
+        "weather": weather
+    })
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5000))
