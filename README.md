@@ -1,0 +1,1 @@
+# my-new-project\n\nRepository created by Hermes Agent\n
